@@ -1,6 +1,6 @@
 # Flame Dragon Scanning System
 
-![logo](/images/scanner_icon.png)
+![logo](https://github.com/BeatRex/Flame-Dragon-Scanning-System/blob/master/static/images/scanner_icon.png)
 
 ***
 ## 环境
