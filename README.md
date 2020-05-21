@@ -30,7 +30,7 @@
 ## 个人平台
 
 ### 微信公众号：BeatRex的成长记录
-<img src="/images/wxgzh.jpg">
+<img src="wxgzh.jpg">
 ### 技术博客：<a href="https://blog.csdn.net/BeatRex">https://blog.csdn.net/BeatRex</a>
 ### BiliBili：<a href="https://space.bilibili.com/263536932">https://space.bilibili.com/263536932</a>
 ### 网易云音乐：<a href="https://music.163.com/#/user/home?id=318198925">BeatRex</a>
