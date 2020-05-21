@@ -1,9 +1,10 @@
-# Flame Dragon Scanning System
-
-![logo](https://github.com/BeatRex/Flame-Dragon-Scanning-System/blob/master/static/images/scanner_icon.png)
+# Flame Dragon Scanning System 
 ![Python版本](https://badgen.net/badge/Python/3.8.0/green)
 ![Flask版本](https://badgen.net/badge/Flask/1.1.0/yellow)
 ![MySQL版本](https://badgen.net/badge/MySQL/5.5.53/blue)
+
+![logo](https://github.com/BeatRex/Flame-Dragon-Scanning-System/blob/master/static/images/scanner_icon.png)
+
 
 ***
 
