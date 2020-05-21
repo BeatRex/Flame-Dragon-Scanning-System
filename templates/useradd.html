@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="BeatRex">
+
+    <link rel="icon" href="{{ url_for("static",filename="images/scanner_icon.png") }}">
+
+    <title>添加用户-焰龙Web应用扫描系统</title>
+
+    <link href="{{ url_for("static",filename="css/signin.css") }}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="css/login.css") }}">
+
+    <link href="{{ url_for("static",filename="css/bootstrap.min.css") }}" rel="stylesheet">
+
+    <link href="{{ url_for("static",filename="css/ie10-viewport-bug-workaround.css") }}" rel="stylesheet">
+
+    <script src="{{ url_for("static",filename="js/ie-emulation-modes-warning.js") }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/signin.css") }}">
+</head>
+
+<body>
+<div class="container">
+    <h2 class="form-signin-heading">欢迎使用焰龙Web应用扫描系统-添加用户<br><br><img style="width: 80px;"
+                                                        src="{{ url_for("static", filename="images/scanner_icon.png") }}">
+    </h2>
+    <form class="form-signin" id="login_form-signin" method="post">
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="用户名" required autofocus>
+        <br>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="密码" required>
+        <button class="btn btn-lg btn-primary btn-block" id="submit_btn" type="submit">注册</button>
+    </form>
+    <div class="{{alert_class}}" role="alert" id="alert_div">
+        {% for message in get_flashed_messages() %}
+            {{ message }}
+        {% endfor %}
+    </div>
+
+</div>
+<script src="{{ url_for("static",filename="js/ie10-viewport-bug-workaround.js") }}"></script>
+</body>
+</html>
