@@ -1,0 +1,42 @@
+/*登录按钮显示样式*/
+#main_task_div #task_form #submit_btn {
+    background-color: #f96332;
+    border-color: #f96332;
+    width: 50px;
+    font-size:15px;
+    padding:6px 8px;
+}
+/*登录按钮悬浮样式*/
+#main_task_div #task_form #submit_btn:hover {
+    background-color: #BB4A26;
+    border-color: #f96332;
+}
+/*输入框静态样式*/
+.form-signin .form-control{
+    width: 350px;
+    margin-top: 5px;
+}
+/*输入框选中边框发光样式*/
+.form-signin .form-control:focus {
+    border-color: #ff6532;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(255, 127, 80, .075), 0 0 8px rgba(255, 127, 80, .6);
+    box-shadow: inset 0 1px 1px rgba(255, 127, 80, .075), 0 0 8px rgba(255, 127, 80, .6);
+}
+/*信息输错提示框样式*/
+.container #alert_div{
+    width: 500px;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+    text-align: center;
+}
+/*表单内各输入框的提示*/
+#main_task_div #task_form span{
+    font-size: 18px;
+}
+/*表单内各输入框的格式输入提示*/
+#main_task_div #task_form p{
+    color:#767676;
+    margin-top: 10px;
+}

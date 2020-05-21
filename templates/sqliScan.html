@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="BeatRex">
+
+    <link rel="icon" href="{{ url_for("static",filename="images/scanner_icon.png") }}">
+
+    <title>SQL注入扫描 | 焰龙Web应用扫描系统</title>
+
+    <link href="{{ url_for("static",filename="css/bootstrap.min.css") }}" rel="stylesheet">
+
+    <link href="{{ url_for("static",filename="css/ie10-viewport-bug-workaround.css") }}" rel="stylesheet">
+
+    <link href="{{ url_for("static",filename="css/dashboard.css") }}" rel="stylesheet">
+
+    <script src="{{ url_for("static",filename="js/ie-emulation-modes-warning.js") }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/index.css") }}">
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/form.css") }}">
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/formAlert.css") }}">
+</head>
+
+<body>
+<!--顶部导航-->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index') }}"><img
+                    src="{{ url_for("static",filename="images/scanner_logo.png") }}"
+                    height="48"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url_for('logout') }}" class="nav_a">注销</a></li>
+                <li><a href="{{ url_for('about') }}" class="nav_a">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--中部主体-->
+<div class="container-fluid">
+    <div class="row">
+
+        <!--左侧功能栏-->
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+{#                <li><a href="{{ url_for('index') }}">首页</a></li>#}
+                <li><a href="{{ url_for('crawl') }}">页面爬取</a></li>
+                <li><a href="{{ url_for('port_scan') }}">端口扫描</a></li>
+                <li><a href="{{ url_for('sqli_scan') }}">SQL注入扫描</a></li>
+                <li><a href="{{ url_for('xss_scan') }}">XSS扫描</a></li>
+                <li><a href="{{ url_for('task_list') }}">任务列表</a></li>
+            </ul>
+        </div>
+
+        <!--右侧主体部分-->
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="main_task_div">
+            <h1 class="page-header">SQL注入扫描</h1>
+            <!--页面URL爬取任务下达表单-->
+            <form class="form-signin" id="task_form" method="post">
+                <span>新建任务</span><br><br>
+                <span>URL：</span>
+                <label for="inputURL" class="sr-only">URL</label>
+                <input type="text" name="url" id="inputURL" class="form-control" placeholder="http(s)://www.example.com"
+                       required
+                       autofocus>
+                <p>格式：http(s)://www.域名/资源文件，如：https://www.example.com 或 https://www.example.com/test.html</p>
+                <span>POST(检测POST注入时填写)：</span>
+                <label for="inputPOSTdata" class="sr-only">POST</label>
+                <input type="text" name="postData" id="inputPOSTdata" class="form-control"
+                       placeholder="key1=value1&key2=value2">
+                <p>格式：键1=值1&键2=值2，键值对之间&分隔，如：key1=value1&key2=value2</p>
+                <span>Referer(检测referer注入时填写)：</span>
+                <label for="inputReferer" class="sr-only">Referer</label>
+                <input type="text" name="referer" id="inputReferer" class="form-control"
+                       placeholder="http(s)://www.example.com">
+                <p>格式：填写referer的值即可，如：http(s)://www.example.com</p>
+                <span>User-Agent(检测User-Agent注入时填写)：</span>
+                <label for="inputUserAgent" class="sr-only">User-Agent</label>
+                <input type="text" name="userAgent" id="inputUserAgent" class="form-control"
+                       placeholder="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36">
+                <p>格式：填写User-Agent即可，如：Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
+                    Chrome/80.0.3987.149 Safari/537.36</p>
+                <span>cookie(检测cookie注入时填写)：</span>
+                <label for="inputCookie_sqli" class="sr-only">Cookie_sqli</label>
+                <input type="text" name="cookie_sqli" id="inputCookie_sqli" class="form-control" placeholder="cookie">
+                <p>格式：填写cookie的值即可</p>
+                <span>Cookie(检测访问后的页面时填写)：</span>
+                <label for="inputCookie" class="sr-only">Cookie</label>
+                <input type="text" name="cookie" id="inputCookie" class="form-control" placeholder="key1=value1; key2=value2">
+                <p>格式：填写cookie的值即可，如：key1=value1; key2=value2</p>
+                <span>线程：</span>
+                <label for="inputThread" class="sr-only">Thread</label>
+                <input type="text" name="thread" id="inputThread" class="form-control" placeholder="1-10">
+                <p>格式：填写线程数即可（1-10），默认不填写为1</p>
+                <button class="btn btn-lg btn-primary btn-block" id="submit_btn" type="submit">提交</button>
+            </form>
+            {% if get_flashed_messages()[0] %}
+                <br>
+                <div class="alert alert-success alert-dismissible" role="alert" id="form_alert">
+                    {% for message in get_flashed_messages() %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.12.4.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ url_for("static",filename="js/jquery.min.js") }}"><\/script>')</script>
+<script src="{{ url_for("static",filename="js/bootstrap.min.js") }}"></script>
+
+<script src="{{ url_for("static",filename="js/holder.min.js") }}"></script>
+
+<script src="{{ url_for("static",filename="js/ie10-viewport-bug-workaround.js") }}"></script>
+</body>
+</html>

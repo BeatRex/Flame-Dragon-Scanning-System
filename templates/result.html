@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="BeatRex">
+
+    <link rel="icon" href="{{ url_for("static",filename="images/scanner_icon.png") }}">
+
+    <title>扫描报告 | 焰龙Web应用扫描系统</title>
+
+    <link href="{{ url_for("static",filename="css/bootstrap.min.css") }}" rel="stylesheet">
+
+    <link href="{{ url_for("static",filename="css/ie10-viewport-bug-workaround.css") }}" rel="stylesheet">
+
+
+    <script src="{{ url_for("static",filename="js/ie-emulation-modes-warning.js") }}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static",filename="css/result.css") }}">
+</head>
+
+<body>
+<div class="container">
+    <!-- 顶部logo -->
+    <div class="top_logo">
+        <img src="{{ url_for("static",filename="images/scanner_logo.png") }}" height="45">
+    </div>
+
+    <!-- 中部报告 -->
+    <div class="task_information">
+        <h2 class="text-center"><strong>焰龙Web应用扫描系统安全评估报告</strong></h2>
+        <br>
+        <h3><strong>1. 任务信息</strong></h3>
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-striped">
+                <tbody>
+                <tr>
+                    <td><strong>任务ID</strong></td>
+                    <td>{{ task['task_id'] }}</td>
+                </tr>
+                <tr>
+                    <td><strong>目标</strong></td>
+                    <td>{{ task['task_data']['target'] }}</td>
+                </tr>
+                <tr>
+                    <td><strong>任务类型</strong></td>
+                    <td>
+                        {% if task['task_data']['task_type'] == "SQLI" %}
+                            <span>SQL注入扫描</span>
+                        {% elif task['task_data']['task_type'] == "CRAWL" %}
+                            <span>URL爬取</span>
+                        {% elif task['task_data']['task_type'] == "PORT" %}
+                            <span>端口扫描</span>
+                        {% elif task['task_data']['task_type'] == "XSS" %}
+                            <span>XSS扫描</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>开启时间</strong></td>
+                    <td>{{ task['task_data']['start_time'] }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+        <h3><strong>2. 任务结果</strong></h3>
+        <div class="table-responsive">
+
+                {% if task['task_data']['task_type'] == "SQLI" %}
+                    <table class="table table-hover table-striped table-bordered sqli_table">
+                    <thead style="text-align: center">
+                    <tr class="active">
+                        <th>类型</th>
+                        <th>payload</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% block vul %}
+                                {% for key in task['task_data'] %}
+                                    {% if key!= 'task_type' and key!= 'target' and key!='start_time' %}
+                                        <tr>
+                                            <td class="type">{{ key }}</td>
+                                            <td class="payload">{# payload 列#}
+                                                <table class="table table-hover table-striped sqli_payload">
+                                                    {% for type in task['task_data'][key] %}
+                                                        <tr>
+                                                            <td>
+                                                                {{ task['task_data'][key][type]['payload'] }}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                        {% endblock %}
+                    </tbody>
+                {% elif task['task_data']['task_type'] == "CRAWL" %}
+                    <table class="table table-hover table-bordered">
+                    <thead style="text-align: center">
+                    <tr class="active">
+                        <th>序号</th>
+                        <th>URL</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for url in task['task_data'][task['task_id']] %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td><a href="{{ url }}">{{ url }}</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                {% elif task['task_data']['task_type'] == "XSS" %}
+                    <table class="table table-hover table-bordered">
+                    <thead style="text-align: center">
+                    <tr class="active">
+                        <th>参数</th>
+                        <th>类型</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for type in task['task_data']['task_data'] %}
+                            <tr>
+                                <td>{{ type }}</td>
+                                <td>{{ task['task_data']['task_data'][type] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                {% elif task['task_data']['task_type'] == "PORT" %}
+                    <table class="table table-hover table-bordered">
+                    <thead style="text-align: center">
+                    <tr class="active">
+                        <th>序号</th>
+                        <th>开放端口</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for port in task['task_data'][task['task_id']] %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ port }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                {% endif %}
+
+
+            </table>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <div class="bottom">
+        <img src="{{ url_for("static",filename="images/scanner_logo.png") }}" height="45">
+    </div>
+</div>
+
+
+<!--中部主体-->
+
+
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.12.4.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ url_for("static",filename="js/jquery.min.js") }}"><\/script>')</script>
+<script src="{{ url_for("static",filename="js/bootstrap.min.js") }}"></script>
+
+<script src="{{ url_for("static",filename="js/holder.min.js") }}"></script>
+
+<script src="{{ url_for("static",filename="js/ie10-viewport-bug-workaround.js") }}"></script>
+</body>
+</html>

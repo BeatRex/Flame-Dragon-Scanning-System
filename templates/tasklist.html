@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="BeatRex">
+
+    <link rel="icon" href="{{ url_for("static",filename="images/scanner_icon.png") }}">
+
+    <title>任务列表 | 焰龙Web应用扫描系统</title>
+
+    <link href="{{ url_for("static",filename="css/bootstrap.min.css") }}" rel="stylesheet">
+
+    <link href="{{ url_for("static",filename="css/ie10-viewport-bug-workaround.css") }}" rel="stylesheet">
+
+    <link href="{{ url_for("static",filename="css/dashboard.css") }}" rel="stylesheet">
+
+    <script src="{{ url_for("static",filename="js/ie-emulation-modes-warning.js") }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/index.css") }}">
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/form.css") }}">
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/table.css") }}">
+    <script src="{{ url_for("static",filename="js/delete.js") }}"></script>
+</head>
+
+<body>
+<!--顶部导航-->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index') }}"><img
+                    src="{{ url_for("static",filename="images/scanner_logo.png") }}"
+                    height="48"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url_for('logout') }}" class="nav_a">注销</a></li>
+                <li><a href="{{ url_for('about') }}" class="nav_a">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--中部主体-->
+<div class="container-fluid">
+    <div class="row">
+
+        <!--左侧功能栏-->
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+{#                <li><a href="{{ url_for('index') }}">首页</a></li>#}
+                <li><a href="{{ url_for('crawl') }}">页面爬取</a></li>
+                <li><a href="{{ url_for('port_scan') }}">端口扫描</a></li>
+                <li><a href="{{ url_for('sqli_scan') }}">SQL注入扫描</a></li>
+                <li><a href="{{ url_for('xss_scan') }}">XSS扫描</a></li>
+                <li><a href="{{ url_for('task_list') }}">任务列表</a></li>
+            </ul>
+        </div>
+
+        <!--右侧主体部分-->
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="main_task_div">
+            <h1 class="page-header">任务列表</h1>
+            <!--任务列表-->
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead style="text-align: center">
+                    <tr class="active">
+                        <th>id</th>
+                        <th>类型</th>
+                        <th>URL</th>
+                        <th>任务状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {#根据任务的不同设置行的背景颜色#}
+                    {% for task in tasks %}
+                        {% if tasks[task]['task_data']['task_type'] == "SQLI" %}
+                            <tr class="info">
+                                {% elif tasks[task]['task_data']['task_type'] == "CRAWL" %}
+                            <tr>
+                                {% elif tasks[task]['task_data']['task_type'] == "PORT" %}
+                            <tr class="success">
+                                {% elif tasks[task]['task_data']['task_type'] == "XSS" %}
+                            <tr class="warning">
+                        {% endif %}
+                    {#显示任务id#}
+                    <td>{{ task }}</td>
+                    {#显示任务类型#}
+                    <td>
+                        {% if tasks[task]['task_data']['task_type'] == "SQLI" %}
+                            <span>SQL注入扫描</span>
+                        {% elif tasks[task]['task_data']['task_type'] == "CRAWL" %}
+                            <span>URL爬取</span>
+                        {% elif tasks[task]['task_data']['task_type'] == "PORT" %}
+                            <span>端口扫描</span>
+                        {% elif tasks[task]['task_data']['task_type'] == "XSS" %}
+                            <span>XSS扫描</span>
+                        {% endif %}
+                    </td>
+                    {#显示任务URL#}
+                    <td>{{ tasks[task]['task_data']['target'] }}</td>
+                    {#显示任务状态#}
+                    <td>
+                        {% if tasks[task]['task_status'] == "running" %}
+                            <span>正在扫描</span>
+                        {% elif tasks[task]['task_status'] == "terminated" %}
+                            <span>扫描结束</span>
+                        {% elif tasks[task]['task_status'] == "not running" %}
+                            <span>扫描暂停</span>
+                        {% endif %}
+                    </td>
+                    {#根据任务状态显示操作，正在扫描显示暂停，扫描结束显示查看、报告输出、删除，扫描暂停显示继续、删除#}
+                    <td>
+                        {% if tasks[task]['task_status'] == "terminated" %}
+                            <a href="{{ url_for('result', task_id=task) }}" class="btn btn-info btn-xs" target="_blank">查看</a>
+                            <a href="{{ url_for('delete', task_id=task) }}" class="btn btn-danger btn-xs">删除</a>
+                        {% elif tasks[task]['task_status'] == "running" %}
+                            <button type="button" class="btn btn-warning btn-xs">暂停</button>
+                        {% elif tasks[task]['task_status'] == "not running" %}
+                            <button type="button" class="btn btn-success btn-xs">继续</button>
+                            <button type="button" class="btn btn-danger btn-xs">删除</button>
+                        {% endif %}
+                    </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.12.4.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ url_for("static",filename="js/jquery.min.js") }}"><\/script>')</script>
+<script src="{{ url_for("static",filename="js/bootstrap.min.js") }}"></script>
+
+<script src="{{ url_for("static",filename="js/holder.min.js") }}"></script>
+
+<script src="{{ url_for("static",filename="js/ie10-viewport-bug-workaround.js") }}"></script>
+</body>
+</html>

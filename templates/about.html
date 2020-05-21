@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="BeatRex">
+
+    <link rel="icon" href="{{ url_for("static",filename="images/scanner_icon.png") }}">
+
+    <title>关于-焰龙Web应用扫描系统</title>
+
+    <link href="{{ url_for("static",filename="css/bootstrap.min.css") }}" rel="stylesheet">
+
+    <link href="{{ url_for("static",filename="css/ie10-viewport-bug-workaround.css") }}" rel="stylesheet">
+
+    <link href="{{ url_for("static",filename="css/dashboard.css") }}" rel="stylesheet">
+
+    <script src="{{ url_for("static",filename="js/ie-emulation-modes-warning.js") }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/index.css") }}">
+</head>
+<body>
+<!--顶部导航-->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('index') }}"><img
+                    src="{{ url_for("static",filename="images/scanner_logo.png") }}"
+                    height="48"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url_for('logout') }}" class="nav_a">注销</a></li>
+                <li><a href="{{ url_for('about') }}" class="nav_a">关于</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--页面主体部分-->
+<div class="container">
+    <!--关于扫描器的介绍-->
+    <div class="my_info">
+        <h3>0x01 项目说明：</h3>
+        <dl class="dl-horizontal">
+            <br>
+            <dt>项目名：</dt>
+            <dd>焰龙Web应用扫描系统（Flame Dragon Web Scanning System，简称Flame Dragon WSS）</dd>
+            <br>
+            <dt>环境：</dt>
+            <dd>Python 3.8.0
+                <br>
+                Flask 1.1.1
+                <br>
+                MySQL 5.5.53
+            </dd>
+            <br>
+            <dt>简介：</dt>
+            <dd>本项目为基于Web应用的扫描系统，集成 <mark>端口扫描</mark>、<mark>URL爬取</mark>、<mark>SQL注入扫描</mark>、<mark>XSS扫描</mark>等功能。可根据说明编写更多漏洞扫描的扩展插件，详细说明请见说明文档。</dd>
+            <br>
+            <dt>声明：</dt>
+            <dd><b><em>本项目仅限用于合法范围的Web应用安全评估工作，请勿用于非法用途！</em></b></dd>
+            <br>
+        </dl>
+        <h3>0x02 作者信息：</h3>
+
+        <dl class="dl-horizontal">
+            <br>
+            <dt>
+                Github地址：
+            </dt>
+            <dd>
+                <a href="https://github.com/BeatRex" target="_blank">
+                    <img src="{{ url_for("static", filename="images/github_logo.jpg") }}" alt="csdn" class="img-rounded img-responsive" width="100">
+                </a>
+            </dd>
+            <br>
+            <dt>CSDN博客地址：</dt>
+            <dd>
+                <a href="https://blog.csdn.net/BeatRex" target="_blank">
+                    <img src="{{ url_for("static", filename="images/csdn_logo.png") }}" alt="csdn" class="img-thumbnail img-responsive" width="100">
+                </a>
+            </dd>
+            <br>
+            <dt>微信公众号：</dt>
+            <dd>
+                <img src="{{ url_for("static", filename="images/wechat_public.jpg") }}" class="img-thumbnail img-rounded" width="100" alt="微信公众号">
+            </dd>
+        </dl>
+    </div>
+</div>
+</body>
+</html>

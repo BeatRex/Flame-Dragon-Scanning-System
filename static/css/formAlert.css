@@ -1,0 +1,5 @@
+/*表单提交之后页面返回的flash信息显示样式*/
+#main_task_div #form_alert{
+	width: 130px;
+	padding-right: 0px;
+}
