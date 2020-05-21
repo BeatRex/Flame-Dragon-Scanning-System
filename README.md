@@ -1,10 +1,6 @@
 # Flame Dragon Scanning System
 
 ![logo](https://github.com/BeatRex/Flame-Dragon-Scanning-System/blob/master/static/images/scanner_icon.png)
-
-***
-## 环境
-
 ![Python版本](https://badgen.net/badge/Python/3.8.0/green)
 ![Flask版本](https://badgen.net/badge/Flask/1.1.0/yellow)
 ![MySQL版本](https://badgen.net/badge/MySQL/5.5.53/blue)
@@ -30,7 +26,10 @@
 ## 个人平台
 
 ### 微信公众号：BeatRex的成长记录
-<img src="wxgzh.jpg">
+<img src="https://github.com/BeatRex/Flame-Dragon-Scanning-System/blob/master/static/images/wxgzh.jpg">
+
 ### 技术博客：<a href="https://blog.csdn.net/BeatRex">https://blog.csdn.net/BeatRex</a>
+
 ### BiliBili：<a href="https://space.bilibili.com/263536932">https://space.bilibili.com/263536932</a>
+
 ### 网易云音乐：<a href="https://music.163.com/#/user/home?id=318198925">BeatRex</a>
